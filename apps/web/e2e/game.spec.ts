@@ -42,3 +42,19 @@ test("two players deploy, trade fire, and a forfeit ends in a rematch", async ({
     await expect(page.getByRole("button", { name: "Randomize" })).toBeVisible();
   }
 });
+
+test("Quick Match pairs two strangers into the same room", async ({ browser }, testInfo) => {
+  // One shared queue: parallel runs in other projects would cross-pair.
+  test.skip(testInfo.project.name !== "desktop", "the queue is global");
+  const a = await browser.newPage();
+  const b = await browser.newPage();
+  for (const page of [a, b]) {
+    await page.goto("/");
+    await page.getByRole("button", { name: /Quick match/ }).click();
+  }
+  for (const page of [a, b]) {
+    await expect(page).toHaveURL(/\/q\/[0-9a-f-]{36}$/);
+    await expect(page.getByRole("button", { name: "Randomize" })).toBeVisible();
+  }
+  expect(a.url()).toBe(b.url());
+});

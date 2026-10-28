@@ -15,6 +15,8 @@ export const CLOCKS = {
   placement: Duration.minutes(2),
   reconnect: Duration.seconds(60),
   lobbyExpiry: Duration.minutes(10),
+  /** A Quick Match pairing whose opponent never connects gives up quickly. */
+  quickLobbyExpiry: Duration.seconds(30),
 } as const;
 
 export const ROOM_CODE_ALPHABET = "23456789ABCDEFGHJKMNPQRSTUVWXYZ";

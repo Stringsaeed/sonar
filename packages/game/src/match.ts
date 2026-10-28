@@ -167,7 +167,10 @@ export const newMatch = Effect.fnUntraced(function* (mode: MatchMode) {
     mode,
     round: 1,
     players: [null, null],
-    phase: { _tag: "Waiting", expiresAt: now + ms(CLOCKS.lobbyExpiry) },
+    phase: {
+      _tag: "Waiting",
+      expiresAt: now + ms(mode === "quick" ? CLOCKS.quickLobbyExpiry : CLOCKS.lobbyExpiry),
+    },
   } satisfies Match as Match;
 });
 

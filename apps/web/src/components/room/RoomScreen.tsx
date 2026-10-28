@@ -118,17 +118,42 @@ export function RoomScreen({ room }: { room: string }) {
           <WifiOff className="size-4" aria-hidden="true" /> CONNECTION LOST — RECONNECTING
         </div>
       )}
-      {phase._tag === "Waiting" && <Lobby {...shared} phase={phase} />}
+      {phase._tag === "Waiting" &&
+        (view.mode === "quick" ? (
+          <Card label="Quick match" title="Opponent found">
+            <Loader2
+              className="mx-auto mt-4 size-8 animate-spin text-sonar-green"
+              aria-hidden="true"
+            />
+            <p data-testid="room-status" className="mt-3 text-sm text-muted-foreground">
+              Waiting for them to connect…
+            </p>
+          </Card>
+        ) : (
+          <Lobby {...shared} phase={phase} />
+        ))}
       {phase._tag === "Placing" && <PlacementScreen {...shared} phase={phase} />}
       {(phase._tag === "Battle" || phase._tag === "Over") && (
         <BattleScreen {...shared} phase={phase} />
       )}
       {phase._tag === "Closed" && (
-        <Card label={`Room ${view.room}`} title="Room closed">
+        <Card
+          label={view.mode === "quick" ? "Quick match" : `Room ${view.room}`}
+          title="Room closed"
+        >
           <p className="mt-3 text-sm text-muted-foreground">
-            The pairing has ended. Start a new room or jump into Quick Match.
+            {view.opponent
+              ? "The pairing has ended. Start a new room or jump into Quick Match."
+              : "Your opponent never showed up."}
           </p>
-          <HomeButton />
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Button asChild>
+              <Link to="/play">Find a match</Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link to="/">Back to base</Link>
+            </Button>
+          </div>
         </Card>
       )}
     </>

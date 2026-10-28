@@ -11,6 +11,7 @@ import { StatReadout } from "@/components/landing/StatReadout";
 import { Button } from "@/components/ui/button";
 import { globalStatsAtom, myRecordAtom } from "@/lib/api";
 import { loadIdentity } from "@/lib/identity";
+import { useDock } from "@/lib/matchmaker";
 import { randomRoomCode } from "@/lib/room-code";
 
 export const Route = createFileRoute("/")({ component: Landing });
@@ -20,10 +21,28 @@ function Landing() {
   const { callsign } = loadIdentity();
   const stats = AsyncResult.getOrElse(useAtomValue(globalStatsAtom), () => undefined);
   const record = AsyncResult.getOrElse(useAtomValue(myRecordAtom), () => undefined);
+  const dock = useDock();
 
   return (
     <div className="relative mx-auto max-w-6xl px-4 pt-4 pb-16 sm:px-6 md:pt-6">
-      <AppHeader />
+      <AppHeader>
+        {dock.online !== undefined && (
+          <div
+            aria-label={`${dock.online} pilots online, ${dock.inQueue} in queue`}
+            className="flex items-center gap-2 rounded-full border border-sonar-green/30 bg-black/30 px-3 py-1.5 text-[0.7rem] font-extrabold tracking-wider sm:gap-4 sm:px-4 sm:text-xs"
+          >
+            <span className="flex items-center gap-1.5">
+              <span className="live-dot text-sonar-green" aria-hidden="true" />
+              <span className="text-sonar-green">{dock.online}</span> ONLINE
+            </span>
+            <span className="h-3 w-px bg-white/20" aria-hidden="true" />
+            <span className="flex items-center gap-1.5">
+              <span className="live-dot text-sonar-amber" aria-hidden="true" />
+              <span className="text-sonar-amber">{dock.inQueue}</span> IN QUEUE
+            </span>
+          </div>
+        )}
+      </AppHeader>
 
       <main>
         {/* Readouts flank the scope on desktop and sit above/below it on phones. */}
@@ -62,7 +81,9 @@ function Landing() {
                   Quick match
                 </span>
                 <span className="mt-1 font-mono text-[0.65rem] font-extrabold tracking-[0.18em] text-[#03230f]/75 sm:text-xs">
-                  PAIRED WITH THE NEXT PILOT IN LINE
+                  {dock.inQueue
+                    ? `${dock.inQueue} ${dock.inQueue === 1 ? "PILOT" : "PILOTS"} WAITING`
+                    : "PAIRED WITH THE NEXT PILOT IN LINE"}
                 </span>
               </Button>
             </motion.div>

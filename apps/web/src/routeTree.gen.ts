@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlayRouteImport } from './routes/play'
+import { Route as QIdRouteImport } from './routes/q.$id'
 import { Route as RCodeRouteImport } from './routes/r.$code'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const PlayRoute = PlayRouteImport.update({
   path: '/play',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QIdRoute = QIdRouteImport.update({
+  id: '/q/$id',
+  path: '/q/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RCodeRoute = RCodeRouteImport.update({
   id: '/r/$code',
   path: '/r/$code',
@@ -32,30 +38,34 @@ const RCodeRoute = RCodeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/play': typeof PlayRoute
+  '/q/$id': typeof QIdRoute
   '/r/$code': typeof RCodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/play': typeof PlayRoute
+  '/q/$id': typeof QIdRoute
   '/r/$code': typeof RCodeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/play': typeof PlayRoute
+  '/q/$id': typeof QIdRoute
   '/r/$code': typeof RCodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/play' | '/r/$code'
+  fullPaths: '/' | '/play' | '/q/$id' | '/r/$code'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/play' | '/r/$code'
-  id: '__root__' | '/' | '/play' | '/r/$code'
+  to: '/' | '/play' | '/q/$id' | '/r/$code'
+  id: '__root__' | '/' | '/play' | '/q/$id' | '/r/$code'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PlayRoute: typeof PlayRoute
+  QIdRoute: typeof QIdRoute
   RCodeRoute: typeof RCodeRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlayRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/q/$id': {
+      id: '/q/$id'
+      path: '/q/$id'
+      fullPath: '/q/$id'
+      preLoaderRoute: typeof QIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/r/$code': {
       id: '/r/$code'
       path: '/r/$code'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PlayRoute: PlayRoute,
+  QIdRoute: QIdRoute,
   RCodeRoute: RCodeRoute,
 }
 export const routeTree = rootRouteImport

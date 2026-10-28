@@ -1,5 +1,6 @@
 import {
   type Action,
+  isQuickRoom,
   ClientMessageJson,
   Match,
   newMatch,
@@ -18,7 +19,6 @@ import { MatchRecords } from "./records.ts";
 const MAX_MESSAGE_BYTES = 4096;
 const RATE_WINDOW_MS = 1000;
 const RATE_MAX_MESSAGES = 20;
-const QUICK_ROOM_PREFIX = "q-";
 
 const decodeClientMessage = Schema.decodeUnknownExit(ClientMessageJson);
 const encodeServerMessage = Schema.encodeSync(ServerMessageJson);
@@ -32,9 +32,6 @@ interface Seated {
 
 const send = (connection: Connection, message: ServerMessage) =>
   connection.send(encodeServerMessage(message));
-
-export const isQuickRoom = (name: string) => name.startsWith(QUICK_ROOM_PREFIX);
-export const quickRoomName = (id: string) => `${QUICK_ROOM_PREFIX}${id}`;
 
 /**
  * One Room per match. It holds both fleets and every clock, and decides every action through the
