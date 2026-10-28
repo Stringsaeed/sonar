@@ -14,6 +14,11 @@ for (const gesture of ["pointerdown", "keydown"] as const) {
   window.addEventListener(gesture, unlockSound, { once: true, capture: true });
 }
 
+// iOS Safari ignores user-scalable=no, so pinch zoom is blocked here instead.
+for (const gesture of ["gesturestart", "gesturechange"]) {
+  document.addEventListener(gesture, (event) => event.preventDefault());
+}
+
 declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;

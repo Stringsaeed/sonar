@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { ROOM_CODE_ALPHABET, ROOM_CODE_LENGTH } from "@sonar/game";
+import { expectNoSidewaysScroll } from "./viewport.ts";
 
 const freshRoomCode = () =>
   Array.from(
@@ -18,6 +19,8 @@ test("landing greets the pilot and shows their record and fleet activity", async
   await expect(page.getByRole("heading", { name: callsign! })).toBeVisible();
   await expect(page.getByText("Matches today")).toBeVisible();
   await expect(page.getByText(/No sorties yet|Recent sorties/).first()).toBeVisible();
+  await expect(page.getByText("Online", { exact: false }).first()).toBeVisible();
+  await expectNoSidewaysScroll(page);
   expect(errors).toEqual([]);
 });
 
@@ -26,6 +29,7 @@ test("creating a private room drops the host into it", async ({ page }) => {
   await page.getByRole("button", { name: "Create room" }).click();
   await expect(page).toHaveURL(/\/r\/[2-9A-Z]{6}$/);
   await expect(page.getByTestId("room-status")).toContainText("Send this link to a friend");
+  await expectNoSidewaysScroll(page);
 });
 
 test("joining by code normalizes what the player types", async ({ page }) => {
@@ -45,6 +49,6 @@ test("a second player joining sends both straight to placement", async ({ browse
 
   await guest.goto(`/r/${code}`);
   for (const page of [host, guest]) {
-    await expect(page.getByRole("button", { name: "Randomize" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Random", exact: true })).toBeVisible();
   }
 });

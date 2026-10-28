@@ -16,6 +16,8 @@ export default defineConfig({
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },
     { name: "phone", use: { ...devices["Pixel 7"] } },
+    // The narrowest phone we support, in Chromium (WebKit stalls on the Vite dev server).
+    { name: "small-phone", use: { ...devices["iPhone 13 Mini"], browserName: "chromium" } },
   ],
   ...(remote
     ? {}

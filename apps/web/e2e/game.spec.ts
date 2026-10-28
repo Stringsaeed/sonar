@@ -1,4 +1,5 @@
 import { type Browser, expect, type Page, test } from "@playwright/test";
+import { expectNoSidewaysScroll } from "./viewport.ts";
 
 const enemyCell = (page: Page, label: string) =>
   page.getByRole("button", { name: new RegExp(`^${label}, `) });
@@ -8,20 +9,6 @@ const pilot = async (browser: Browser) => {
   const page = await browser.newPage();
   await page.addInitScript(() => localStorage.setItem("sonar.callsign", "Silent Barnacle"));
   return page;
-};
-
-// A page wider than the screen makes mobile browsers zoom out, which puts sticky controls
-// out of reach. Long random callsigns are the usual culprit.
-const expectNoSidewaysScroll = async (...pages: Page[]) => {
-  for (const page of pages) {
-    await expect
-      .poll(() =>
-        page.evaluate(
-          () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-        ),
-      )
-      .toBe(0);
-  }
 };
 
 test("two players deploy, trade fire, and a forfeit ends in a rematch", async ({ browser }) => {
@@ -34,11 +21,11 @@ test("two players deploy, trade fire, and a forfeit ends in a rematch", async ({
   await guest.goto(host.url());
 
   for (const page of [host, guest]) {
-    await expect(page.getByRole("button", { name: "Randomize" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Random", exact: true })).toBeVisible();
   }
   await expectNoSidewaysScroll(host, guest);
   for (const page of [host, guest]) {
-    await page.getByRole("button", { name: "Randomize" }).click();
+    await page.getByRole("button", { name: "Random", exact: true }).click();
     await page.getByRole("button", { name: "Ready for battle" }).click();
   }
 
@@ -66,7 +53,7 @@ test("two players deploy, trade fire, and a forfeit ends in a rematch", async ({
   await shooter.getByRole("button", { name: "Rematch" }).click();
   await defender.getByRole("button", { name: "Accept rematch" }).click();
   for (const page of [host, guest]) {
-    await expect(page.getByRole("button", { name: "Randomize" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Random", exact: true })).toBeVisible();
   }
 });
 
@@ -81,7 +68,7 @@ test("Quick Match pairs two strangers into the same room", async ({ browser }, t
   }
   for (const page of [a, b]) {
     await expect(page).toHaveURL(/\/q\/[0-9a-f-]{36}$/);
-    await expect(page.getByRole("button", { name: "Randomize" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Random", exact: true })).toBeVisible();
   }
   expect(a.url()).toBe(b.url());
 });

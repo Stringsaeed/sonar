@@ -74,8 +74,19 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* A game screen, not a document: no sideways panning, no double-tap zoom, no text inflation. */
+  html {
+    overflow-x: clip;
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+  }
+  /* The background runs under the status bar and home indicator; the app stays inside the safe area. */
+  #root {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+      env(safe-area-inset-left);
+  }
   body {
-    @apply min-h-dvh font-mono text-foreground;
+    @apply min-h-dvh overflow-x-clip font-mono text-foreground;
     background:
       radial-gradient(1200px 700px at 50% -10%, rgb(31 174 94 / 0.18), transparent 60%),
       radial-gradient(900px 600px at 100% 110%, rgb(255 79 94 / 0.12), transparent 60%),

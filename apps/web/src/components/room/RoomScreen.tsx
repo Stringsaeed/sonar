@@ -113,7 +113,7 @@ export function RoomScreen({ room }: { room: string }) {
       {status === "reconnecting" && (
         <div
           role="status"
-          className="fixed inset-x-0 top-0 z-40 flex items-center justify-center gap-2 bg-sonar-amber py-1.5 font-mono text-xs font-extrabold tracking-wider text-[#2a1d00]"
+          className="fixed inset-x-0 top-0 z-40 flex items-center justify-center gap-2 bg-sonar-amber pt-[calc(0.375rem+env(safe-area-inset-top))] pb-1.5 font-mono text-xs font-extrabold tracking-wider text-[#2a1d00]"
         >
           <WifiOff className="size-4" aria-hidden="true" /> CONNECTION LOST — RECONNECTING
         </div>

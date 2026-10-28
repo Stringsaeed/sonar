@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Radar } from "lucide-react";
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 import { SoundToggles } from "./SoundToggles";
 
 export function AppHeader({ children }: { children?: ReactNode }) {
@@ -8,7 +9,10 @@ export function AppHeader({ children }: { children?: ReactNode }) {
     <header className="flex items-center justify-between gap-3">
       <Link to="/" className="flex shrink-0 items-center gap-2 rounded-lg" aria-label="Sonar home">
         <Radar className="size-6 text-sonar-green" strokeWidth={2.5} aria-hidden="true" />
-        <span className="glow-green font-display text-lg">SONAR</span>
+        {/* On the narrowest phones the icon carries the brand so the header's contents fit. */}
+        <span className={cn("glow-green font-display text-lg", children && "max-[400px]:hidden")}>
+          SONAR
+        </span>
       </Link>
       {/* min-w-0 lets a long "callsign vs callsign" truncate instead of widening the page on phones. */}
       <div className="flex min-w-0 items-center gap-2 sm:gap-3">

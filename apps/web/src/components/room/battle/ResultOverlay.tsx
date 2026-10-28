@@ -127,7 +127,7 @@ export function ResultOverlay({
       {reviewing ? (
         <motion.section
           key="bar"
-          className="hud-panel fixed inset-x-3 bottom-3 z-40 mx-auto flex max-w-xl items-center gap-3 p-3 sm:p-4"
+          className="hud-panel fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-40 mx-auto flex max-w-xl items-center gap-3 p-3 sm:p-4"
           initial={{ y: 80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
@@ -150,7 +150,7 @@ export function ResultOverlay({
       ) : (
         <motion.div
           key="dialog"
-          className="fixed inset-0 z-40 grid place-items-center overflow-y-auto bg-sonar-abyss/75 p-4 backdrop-blur-[2px]"
+          className="fixed inset-0 z-40 grid place-items-center overflow-y-auto p-4 pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.15 } }}
@@ -161,6 +161,12 @@ export function ResultOverlay({
             if (event.key === "Escape") onReview(true);
           }}
         >
+          {/* Its own layer, a full screen tall (lvh), so the dim reaches under the status bar and
+              Safari's floating toolbar instead of stopping at the safe area. */}
+          <div
+            aria-hidden="true"
+            className="fixed inset-x-0 top-0 h-[calc(100lvh+env(safe-area-inset-bottom))] bg-sonar-abyss/75 backdrop-blur-[2px]"
+          />
           <motion.div
             className={cn(
               "hud-panel w-full max-w-md p-6 text-center sm:p-8",

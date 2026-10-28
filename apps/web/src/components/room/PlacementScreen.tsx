@@ -238,7 +238,7 @@ export function PlacementScreen({
                 </Button>
                 <Button variant="secondary" size="sm" className="px-2" onClick={editor.randomize}>
                   <Shuffle strokeWidth={3} aria-hidden="true" />
-                  Randomize
+                  Random
                 </Button>
                 <Button
                   variant="outline"
@@ -263,7 +263,12 @@ export function PlacementScreen({
 
             {!locked && (
               // Once the fleet is complete, keep Ready in reach on phones without scrolling.
-              <div className={cn(complete && "sticky bottom-3 z-20 lg:static")}>
+              <div
+                className={cn(
+                  complete &&
+                    "sticky bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-20 lg:static",
+                )}
+              >
                 <Button size="lg" className="w-full" disabled={!complete} onClick={lockIn}>
                   <Anchor strokeWidth={3} aria-hidden="true" />
                   {complete
