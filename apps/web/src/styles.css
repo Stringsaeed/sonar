@@ -90,7 +90,9 @@
     background:
       radial-gradient(1200px 700px at 50% -10%, rgb(31 174 94 / 0.18), transparent 60%),
       radial-gradient(900px 600px at 100% 110%, rgb(255 79 94 / 0.12), transparent 60%),
-      linear-gradient(180deg, var(--color-sonar-trench), var(--color-sonar-abyss) 55%);
+      linear-gradient(180deg, var(--color-sonar-trench), var(--color-sonar-abyss) 55%)
+        /* What browsers paint past the page edge when you overscroll; the top of the gradient. */
+        var(--color-sonar-trench);
   }
   /* faint CRT scanlines over everything */
   body::before {
