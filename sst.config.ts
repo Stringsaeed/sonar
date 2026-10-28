@@ -53,7 +53,9 @@ export default $config({
           runWorkerFirst: ["/api/*", "/ws/*"],
         },
         domain: $app.stage === "production" ? "sonar.saeed.sh" : undefined,
-        url: true,
+        // Production is only reachable on its domain, behind the zone's WAF and rate limit;
+        // a workers.dev URL would bypass both. Other stages keep theirs.
+        url: $app.stage !== "production",
       },
       { dependsOn: [migrate] },
     );
