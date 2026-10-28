@@ -50,7 +50,13 @@ jobs:
           cache: true
           run-install: true
       - run: vp run web#build
-      - run: vp exec sst deploy --stage pr-${{ github.event.number }}
+      - run: vp exec sst deploy --stage pr-${{ github.event.number }} --print-logs
+      - uses: actions/upload-artifact@v5
+        if: failure()
+        with:
+          name: sst-log-preview
+          path: .sst/log
+          include-hidden-files: true
 
   teardown:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -62,7 +68,13 @@ jobs:
           node-version: "24"
           cache: true
           run-install: true
-      - run: vp exec sst remove --stage pr-${{ github.event.number }}
+      - run: vp exec sst remove --stage pr-${{ github.event.number }} --print-logs
+      - uses: actions/upload-artifact@v5
+        if: failure()
+        with:
+          name: sst-log-teardown
+          path: .sst/log
+          include-hidden-files: true
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -77,4 +89,10 @@ jobs:
           cache: true
           run-install: true
       - run: vp run web#build
-      - run: vp exec sst deploy --stage production
+      - run: vp exec sst deploy --stage production --print-logs
+      - uses: actions/upload-artifact@v5
+        if: failure()
+        with:
+          name: sst-log-production
+          path: .sst/log
+          include-hidden-files: true
