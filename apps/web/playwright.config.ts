@@ -23,7 +23,8 @@ export default defineConfig({
     ? {}
     : {
         webServer: {
-          command: `vp run @sonar/worker#db:migrate:local && vp dev --port ${PORT} --strictPort`,
+          // Not `vp run`: CI starts this from inside `vp run web#e2e`, and a nested `vp run` exits 1.
+          command: `pnpm --filter @sonar/worker run db:migrate:local && vp dev --port ${PORT} --strictPort`,
           url: `http://localhost:${PORT}`,
           reuseExistingServer: !process.env.CI,
         },
