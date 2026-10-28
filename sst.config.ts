@@ -31,6 +31,8 @@ export default $config({
 
     const migrate = new command.local.Command("MigrateDB", {
       create: "node apps/worker/scripts/migrate-remote.ts",
+      // Commands run from .sst/platform by default.
+      dir: $cli.paths.root,
       triggers: [migrationsHash],
       environment: {
         D1_DATABASE_ID: $interpolate`${db.databaseId}`,
