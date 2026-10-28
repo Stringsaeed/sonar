@@ -1,0 +1,198 @@
+/* Battle screen: only the keyframes and layered gradients Tailwind can't express cleanly. */
+
+/* The bezel around the enemy radar. Turns coral while the opponent is aiming. */
+.battle-screen {
+  border-radius: 26px;
+  padding: 10px;
+  background: linear-gradient(160deg, var(--color-sonar-cyan-deep), #061430);
+  border: 3px solid rgb(57 255 136 / 0.35);
+  box-shadow:
+    0 0 0 6px rgb(3 13 34 / 0.9),
+    0 0 50px rgb(57 255 136 / 0.18),
+    inset 0 0 30px rgb(0 0 0 / 0.6);
+  transition:
+    border-color 400ms ease,
+    box-shadow 400ms ease;
+}
+.battle-screen[data-turn="theirs"] {
+  border-color: rgb(255 79 94 / 0.45);
+  box-shadow:
+    0 0 0 6px rgb(3 13 34 / 0.9),
+    0 0 50px rgb(255 79 94 / 0.18),
+    inset 0 0 30px rgb(0 0 0 / 0.6);
+}
+
+.battle-grid {
+  background:
+    linear-gradient(to right, rgb(57 255 136 / 0.16) 1px, transparent 1px) 0 0 / 10% 10%,
+    linear-gradient(to bottom, rgb(57 255 136 / 0.16) 1px, transparent 1px) 0 0 / 10% 10%,
+    radial-gradient(circle at 50% 50%, rgb(57 255 136 / 0.12), transparent 70%),
+    #041a26;
+  box-shadow:
+    inset 0 0 0 1px rgb(57 255 136 / 0.35),
+    inset 0 0 60px rgb(0 0 0 / 0.7);
+}
+
+.battle-grid-rings {
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 0 19.6%,
+      rgb(57 255 136 / 0.1) 19.8% 20.2%,
+      transparent 20.4%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 0 39.6%,
+      rgb(57 255 136 / 0.1) 39.8% 40.2%,
+      transparent 40.4%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 0 59.6%,
+      rgb(57 255 136 / 0.08) 59.8% 60.2%,
+      transparent 60.4%
+    );
+}
+
+.battle-grid-sweep {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150%;
+  aspect-ratio: 1;
+  margin: -75% 0 0 -75%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgb(57 255 136 / 0) 0deg,
+    rgb(57 255 136 / 0) 290deg,
+    rgb(57 255 136 / 0.07) 330deg,
+    rgb(57 255 136 / 0.3) 359deg,
+    rgb(57 255 136 / 0) 360deg
+  );
+  animation: battle-spin 5s linear infinite;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+/* While the opponent aims, the sweep goes red and slows down: the scope is "listening". */
+.battle-screen[data-turn="theirs"] .battle-grid-sweep {
+  filter: hue-rotate(-140deg) saturate(1.4);
+  animation-duration: 9s;
+  opacity: 0.6;
+}
+.battle-screen[data-turn="over"] .battle-grid-sweep {
+  opacity: 0;
+}
+
+@keyframes battle-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.battle-hit {
+  background: radial-gradient(
+    circle,
+    #fff 0 14%,
+    #ff8a5b 30%,
+    var(--color-sonar-coral) 58%,
+    rgb(255 79 94 / 0) 72%
+  );
+  box-shadow: 0 0 18px rgb(255 79 94 / 0.85);
+  animation: battle-hit-flicker 1.8s ease-in-out infinite;
+}
+@keyframes battle-hit-flicker {
+  50% {
+    filter: brightness(1.25);
+    transform: scale(1.06);
+  }
+}
+
+/* A sunk enemy ship: a hatched capsule spanning its cells. */
+.battle-sunk-ship {
+  border: 2px solid var(--color-sonar-coral);
+  background: repeating-linear-gradient(
+    -45deg,
+    rgb(255 79 94 / 0.35) 0 4px,
+    rgb(255 79 94 / 0.12) 4px 9px
+  );
+  box-shadow:
+    0 0 18px rgb(255 79 94 / 0.55),
+    inset 0 0 12px rgb(255 79 94 / 0.4);
+}
+
+.battle-ping {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  aspect-ratio: 1;
+  margin: -50% 0 0 -50%;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  pointer-events: none;
+  opacity: 0;
+  animation: battle-ping 1.4s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+@keyframes battle-ping {
+  0% {
+    transform: scale(0.3);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(5);
+    opacity: 0;
+  }
+}
+
+.battle-mini {
+  background:
+    linear-gradient(to right, rgb(57 255 136 / 0.1) 1px, transparent 1px) 0 0 / 10% 10%,
+    linear-gradient(to bottom, rgb(57 255 136 / 0.1) 1px, transparent 1px) 0 0 / 10% 10%,
+    #041a26;
+  box-shadow: inset 0 0 0 1px rgb(57 255 136 / 0.3);
+}
+
+.battle-urgent {
+  animation: battle-urgent 0.5s ease-in-out infinite alternate;
+}
+@keyframes battle-urgent {
+  to {
+    transform: scale(1.06);
+  }
+}
+
+.battle-terminal {
+  background:
+    repeating-linear-gradient(0deg, rgb(57 255 136 / 0.04) 0 1px, transparent 1px 3px), #020a14;
+  box-shadow: inset 0 0 30px rgb(57 255 136 / 0.08);
+  scrollbar-width: thin;
+  scrollbar-color: rgb(57 255 136 / 0.4) transparent;
+}
+
+.battle-caret {
+  display: inline-block;
+  width: 0.6em;
+  height: 1em;
+  vertical-align: -0.15em;
+  background: var(--color-sonar-green);
+  animation: battle-caret 1s steps(1) infinite;
+}
+@keyframes battle-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .battle-grid-sweep,
+  .battle-hit,
+  .battle-urgent,
+  .battle-caret {
+    animation: none;
+  }
+  .battle-ping {
+    display: none;
+  }
+}

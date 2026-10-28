@@ -25,7 +25,7 @@ test("creating a private room drops the host into it", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Create room" }).click();
   await expect(page).toHaveURL(/\/r\/[2-9A-Z]{6}$/);
-  await expect(page.getByTestId("room-status")).toHaveText("Connected · 1/2 players");
+  await expect(page.getByTestId("room-status")).toContainText("Send this link to a friend");
 });
 
 test("joining by code normalizes what the player types", async ({ page }) => {
@@ -35,14 +35,16 @@ test("joining by code normalizes what the player types", async ({ page }) => {
   await expect(page).toHaveURL(/\/r\/K7QX4M$/);
 });
 
-test("two players share a private room", async ({ browser }) => {
+test("a second player joining sends both straight to placement", async ({ browser }) => {
   const code = freshRoomCode();
   const host = await browser.newPage();
   const guest = await browser.newPage();
 
   await host.goto(`/r/${code}`);
-  await expect(host.getByTestId("room-status")).toHaveText("Connected · 1/2 players");
+  await expect(host.getByTestId("room-status")).toContainText("Send this link to a friend");
 
   await guest.goto(`/r/${code}`);
-  await expect(guest.getByTestId("room-status")).toHaveText("Connected · 2/2 players");
+  for (const page of [host, guest]) {
+    await expect(page.getByRole("button", { name: "Randomize" })).toBeVisible();
+  }
 });
