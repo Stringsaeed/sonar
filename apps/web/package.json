@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@effect/atom-react": "catalog:",
+    "@fontsource-variable/jetbrains-mono": "catalog:",
+    "@fontsource/bungee": "catalog:",
     "@sonar/game": "workspace:*",
     "@tanstack/react-router": "catalog:",
     "class-variance-authority": "catalog:",

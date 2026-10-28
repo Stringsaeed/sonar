@@ -2,7 +2,22 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+@theme {
+  --color-sonar-green: #39ff88;
+  --color-sonar-green-deep: #06301f;
+  --color-sonar-coral: #ff4f5e;
+  --color-sonar-coral-deep: #3a0d17;
+  --color-sonar-amber: #ffc94a;
+  --color-sonar-cyan: #7fe9ff;
+  --color-sonar-cyan-deep: #0d2c59;
+  --color-sonar-ink: #d8fbe8;
+  --color-sonar-navy: #12305e;
+  --color-sonar-abyss: #030d22;
+  --color-sonar-trench: #071a3a;
+
+  --font-display: "Bungee", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) * 0.6);
@@ -11,7 +26,6 @@
   --radius-xl: calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -30,88 +44,30 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* Sonar is dark-only: the shadcn tokens map straight onto the arcade palette. */
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  color-scheme: dark;
+  --radius: 1rem;
+  --background: var(--color-sonar-abyss);
+  --foreground: var(--color-sonar-ink);
+  --card: rgb(9 32 68 / 0.72);
+  --card-foreground: var(--color-sonar-ink);
+  --popover: var(--color-sonar-trench);
+  --popover-foreground: var(--color-sonar-ink);
+  --primary: var(--color-sonar-green);
+  --primary-foreground: #03230f;
+  --secondary: var(--color-sonar-cyan);
+  --secondary-foreground: #03202a;
+  --muted: rgb(0 0 0 / 0.25);
+  --muted-foreground: rgb(216 251 232 / 0.6);
+  --accent: var(--color-sonar-navy);
+  --accent-foreground: var(--color-sonar-ink);
+  --destructive: var(--color-sonar-coral);
+  --border: rgb(57 255 136 / 0.22);
+  --input: rgb(127 233 255 / 0.22);
+  --ring: var(--color-sonar-green);
 }
 
 @layer base {
@@ -119,6 +75,123 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply min-h-dvh font-mono text-foreground;
+    background:
+      radial-gradient(1200px 700px at 50% -10%, rgb(31 174 94 / 0.18), transparent 60%),
+      radial-gradient(900px 600px at 100% 110%, rgb(255 79 94 / 0.12), transparent 60%),
+      linear-gradient(180deg, var(--color-sonar-trench), var(--color-sonar-abyss) 55%);
+  }
+  /* faint CRT scanlines over everything */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      rgb(255 255 255 / 0.025) 0 1px,
+      transparent 1px 3px
+    );
+  }
+}
+
+@utility glow-green {
+  color: var(--color-sonar-green);
+  text-shadow:
+    0 0 6px rgb(57 255 136 / 0.7),
+    0 0 24px rgb(57 255 136 / 0.35);
+}
+
+@utility glow-coral {
+  color: var(--color-sonar-coral);
+  text-shadow:
+    0 0 6px rgb(255 79 94 / 0.7),
+    0 0 24px rgb(255 79 94 / 0.35);
+}
+
+@utility hud-label {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(216 251 232 / 0.55);
+}
+
+@utility hud-panel {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 22px;
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 0.4),
+    inset 0 0 40px rgb(57 255 136 / 0.05),
+    0 12px 40px rgb(0 0 0 / 0.35);
+  backdrop-filter: blur(6px);
+}
+
+@utility live-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 10px currentColor;
+  animation: live-blink 1.4s ease-in-out infinite;
+}
+
+@keyframes live-blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* Fat arcade buttons. Variants set --btn-face / --btn-edge / --btn-ink (see components/ui/button.tsx). */
+@layer components {
+  .btn-arcade {
+    --btn-face: var(--color-sonar-green);
+    --btn-edge: #0e8a46;
+    --btn-ink: #03230f;
+    --btn-depth: 7px;
+    font-family: var(--font-display);
+    color: var(--btn-ink);
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--btn-face), white 28%),
+      var(--btn-face)
+    );
+    border: 3px solid color-mix(in oklab, var(--btn-face), black 45%);
+    box-shadow:
+      0 var(--btn-depth) 0 var(--btn-edge),
+      0 10px 30px color-mix(in oklab, var(--btn-face), transparent 55%),
+      inset 0 2px 0 rgb(255 255 255 / 0.55);
+    transition:
+      transform 90ms ease,
+      box-shadow 90ms ease,
+      filter 120ms ease;
+  }
+  .btn-arcade:hover {
+    filter: brightness(1.08);
+  }
+  .btn-arcade:active:not(:disabled) {
+    transform: translateY(calc(var(--btn-depth) - 2px));
+    box-shadow:
+      0 2px 0 var(--btn-edge),
+      0 4px 16px color-mix(in oklab, var(--btn-face), transparent 60%),
+      inset 0 2px 0 rgb(255 255 255 / 0.4);
+  }
+  .btn-arcade:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 4px;
+  }
+  .btn-arcade:disabled {
+    filter: grayscale(0.85) brightness(0.6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
   }
 }
