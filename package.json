@@ -1,0 +1,31 @@
+{
+  "name": "sonar",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp run web#dev",
+    "build": "vp run web#build",
+    "check": "vp check",
+    "test": "vp run -r test",
+    "e2e": "vp run web#e2e",
+    "deploy": "vp run web#build && sst deploy --stage production",
+    "ready": "vp check && vp run -r test && vp run web#build",
+    "prepare": "vp config"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "sst": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.15.0",
+      "onFail": "download"
+    }
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  }
+}

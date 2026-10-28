@@ -1,0 +1,367 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono:wght@400;700&display=swap");
+
+/* PROTOTYPE — throwaway. Variant B, neo-brutalist. Everything is scoped under .v-brutalist. */
+
+.v-brutalist {
+  --b-paper: #f3ecdc;
+  --b-card: #fffaf0;
+  --b-ink: #111111;
+  --b-yellow: #ffd60a;
+  --b-blue: #2638ff;
+  --b-blue-deep: #1a27c9;
+  --b-red: #ff3b1d;
+  --b-white: #fffdf7;
+  --b-shadow: 6px;
+  font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  background-color: var(--b-paper);
+  background-image: radial-gradient(rgb(17 17 17 / 0.1) 1px, transparent 1.4px);
+  background-size: 14px 14px;
+  color: var(--b-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (min-width: 1024px) {
+  .v-brutalist {
+    --b-shadow: 8px;
+  }
+}
+
+.v-brutalist .brutalist-display {
+  font-family: "Anton", "Archivo", Impact, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: 0.004em;
+}
+
+.v-brutalist .brutalist-condensed {
+  font-family: "Archivo", ui-sans-serif, sans-serif;
+  font-stretch: 62%;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.v-brutalist .brutalist-mono {
+  font-family: "Space Mono", ui-monospace, monospace;
+}
+
+.v-brutalist .brutalist-box {
+  border: 3px solid var(--b-ink);
+  box-shadow: var(--b-shadow) var(--b-shadow) 0 var(--b-ink);
+}
+
+@media (min-width: 1024px) {
+  .v-brutalist .brutalist-box {
+    border-width: 4px;
+  }
+}
+
+.v-brutalist .brutalist-rule {
+  border-bottom: 4px solid var(--b-ink);
+  box-shadow:
+    0 3px 0 var(--b-paper),
+    0 5px 0 var(--b-ink);
+}
+
+/* Tactile buttons: lift on hover, shadow collapses on press. */
+.v-brutalist .brutalist-btn {
+  border: 3px solid var(--b-ink);
+  box-shadow: var(--b-shadow) var(--b-shadow) 0 var(--b-ink);
+  transition:
+    transform 90ms ease-out,
+    box-shadow 90ms ease-out,
+    background-color 120ms;
+  cursor: pointer;
+}
+
+.v-brutalist .brutalist-btn:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: calc(var(--b-shadow) + 2px) calc(var(--b-shadow) + 2px) 0 var(--b-ink);
+}
+
+.v-brutalist .brutalist-btn:active:not(:disabled) {
+  transform: translate(var(--b-shadow), var(--b-shadow));
+  box-shadow: 0 0 0 var(--b-ink);
+}
+
+.v-brutalist .brutalist-btn:disabled {
+  cursor: not-allowed;
+  color: rgb(17 17 17 / 0.6);
+  background: repeating-linear-gradient(-45deg, #e4dcc8 0 8px, #d3c9b1 8px 16px);
+  box-shadow: 3px 3px 0 var(--b-ink);
+}
+
+.v-brutalist .brutalist-btn-sm {
+  --b-shadow: 4px;
+}
+
+.v-brutalist :where(a, button, input):focus-visible {
+  outline: 3px dashed var(--b-ink);
+  outline-offset: 4px;
+}
+
+/* Fill-in form comb for the room code. */
+.v-brutalist .brutalist-comb {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
+  flex: 1 1 0;
+  min-width: 0;
+  background: var(--b-white);
+  border: 3px solid var(--b-ink);
+  color: var(--b-ink);
+  font-family: "Space Mono", ui-monospace, monospace;
+  font-weight: 700;
+  font-size: clamp(1.25rem, 6vw, 1.9rem);
+  line-height: 1;
+}
+
+.v-brutalist .brutalist-comb.is-active {
+  background: var(--b-yellow);
+}
+
+.v-brutalist .brutalist-comb.is-active::after {
+  content: "";
+  width: 55%;
+  height: 4px;
+  margin-top: 70%;
+  background: var(--b-ink);
+  animation: brutalist-blink 1s steps(2) infinite;
+}
+
+.v-brutalist .brutalist-comb-wrap:focus-within {
+  outline: 3px dashed var(--b-white);
+  outline-offset: 6px;
+}
+
+/* Ticket stub notches. */
+.v-brutalist .brutalist-perf {
+  position: relative;
+  border-top: 3px dashed var(--b-ink);
+}
+
+.v-brutalist .brutalist-perf::before,
+.v-brutalist .brutalist-perf::after {
+  content: "";
+  position: absolute;
+  top: -14px;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background: var(--b-paper);
+  border: 3px solid var(--b-ink);
+}
+
+.v-brutalist .brutalist-perf::before {
+  left: -16px;
+  clip-path: inset(0 0 0 50%);
+}
+
+.v-brutalist .brutalist-perf::after {
+  right: -16px;
+  clip-path: inset(0 50% 0 0);
+}
+
+/* The rubber LIVE stamp. */
+.v-brutalist .brutalist-live-stamp {
+  border: 4px solid var(--b-red);
+  outline: 2px solid var(--b-red);
+  outline-offset: 3px;
+  color: var(--b-red);
+  background: rgb(255 250 240 / 0.92);
+  transform: rotate(-7deg);
+}
+
+.v-brutalist .brutalist-dot {
+  animation: brutalist-pulse 1.2s ease-in-out infinite;
+}
+
+.v-brutalist .brutalist-leader {
+  flex: 1;
+  border-bottom: 3px dotted var(--b-ink);
+  transform: translateY(-0.3em);
+  min-width: 1rem;
+}
+
+/* Marquee ticker. */
+.v-brutalist .brutalist-marquee {
+  display: flex;
+  width: max-content;
+  animation: brutalist-marquee 40s linear infinite;
+}
+
+/* Boards. */
+.v-brutalist .brutalist-water {
+  background-color: var(--b-blue);
+  background-image:
+    linear-gradient(to right, rgb(255 253 247 / 0.38) 2px, transparent 2px),
+    linear-gradient(to bottom, rgb(255 253 247 / 0.38) 2px, transparent 2px);
+  background-size: 10% 10%;
+  background-position: -1px -1px;
+}
+
+.v-brutalist .brutalist-hull {
+  position: absolute;
+  background: var(--b-yellow);
+  border: 3px solid var(--b-ink);
+  border-radius: 9999px;
+  box-shadow: 3px 3px 0 var(--b-ink);
+}
+
+.v-brutalist .brutalist-hull.is-sunk {
+  background: repeating-linear-gradient(-45deg, var(--b-ink) 0 6px, #3a3a3a 6px 12px);
+  box-shadow: none;
+}
+
+.v-brutalist .brutalist-peg {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  border: 3px solid var(--b-ink);
+}
+
+.v-brutalist .brutalist-peg.is-hit {
+  width: 54%;
+  background: var(--b-red);
+  box-shadow: inset -3px -3px 0 rgb(0 0 0 / 0.28);
+}
+
+.v-brutalist .brutalist-peg.is-miss {
+  width: 36%;
+  border-width: 2.5px;
+  background: var(--b-white);
+  box-shadow: inset -2px -2px 0 rgb(0 0 0 / 0.18);
+}
+
+.v-brutalist .brutalist-peg.is-new {
+  animation: brutalist-peg 420ms cubic-bezier(0.2, 1.7, 0.4, 1) both;
+}
+
+.v-brutalist .brutalist-last {
+  box-shadow: inset 0 0 0 3px var(--b-yellow);
+  animation: brutalist-flash 0.9s steps(2) 3;
+}
+
+.v-brutalist .brutalist-target-cell {
+  cursor: not-allowed;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.v-brutalist .brutalist-target-cell .brutalist-aim {
+  opacity: 0;
+}
+
+.v-brutalist [data-armed="true"] .brutalist-target-cell[data-state="open"] {
+  cursor: crosshair;
+}
+
+.v-brutalist [data-armed="true"] .brutalist-target-cell[data-state="open"]:hover,
+.v-brutalist [data-armed="true"] .brutalist-target-cell[data-state="open"]:focus-visible {
+  background: var(--b-yellow);
+}
+
+.v-brutalist [data-armed="true"] .brutalist-target-cell[data-state="open"]:hover .brutalist-aim,
+.v-brutalist
+  [data-armed="true"]
+  .brutalist-target-cell[data-state="open"]:focus-visible
+  .brutalist-aim {
+  opacity: 1;
+}
+
+.v-brutalist .brutalist-target-cell:focus-visible {
+  outline: 3px solid var(--b-ink);
+  outline-offset: -3px;
+  box-shadow: inset 0 0 0 6px var(--b-yellow);
+  z-index: 5;
+}
+
+.v-brutalist .brutalist-stamp {
+  animation: brutalist-stamp 420ms cubic-bezier(0.2, 1.5, 0.4, 1) both;
+}
+
+.v-brutalist .brutalist-clock-bar {
+  transition: width 250ms linear;
+}
+
+.v-brutalist .brutalist-urgent {
+  animation: brutalist-shake 0.5s ease-in-out infinite;
+}
+
+.v-brutalist .brutalist-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--b-ink) transparent;
+}
+
+@keyframes brutalist-stamp {
+  0% {
+    opacity: 0;
+    transform: scale(1.35) rotate(var(--brutalist-tilt, -2deg));
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(var(--brutalist-tilt, -2deg));
+  }
+}
+
+@keyframes brutalist-peg {
+  0% {
+    opacity: 0;
+    transform: translateY(-60%) scale(1.8);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes brutalist-flash {
+  50% {
+    box-shadow: inset 0 0 0 3px transparent;
+  }
+}
+
+@keyframes brutalist-pulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes brutalist-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes brutalist-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes brutalist-shake {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-1.5deg);
+  }
+  75% {
+    transform: rotate(1.5deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v-brutalist .brutalist-marquee,
+  .v-brutalist .brutalist-dot,
+  .v-brutalist .brutalist-urgent,
+  .v-brutalist .brutalist-last,
+  .v-brutalist .brutalist-peg.is-new,
+  .v-brutalist .brutalist-stamp {
+    animation: none;
+  }
+}

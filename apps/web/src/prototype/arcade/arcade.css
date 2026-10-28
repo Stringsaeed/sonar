@@ -1,0 +1,681 @@
+@import url("https://fonts.googleapis.com/css2?family=Bungee&family=JetBrains+Mono:wght@400;600;800&display=swap");
+
+/* PROTOTYPE — throwaway. Variant A "Sonar arcade". Every selector is scoped under .v-arcade. */
+
+.v-arcade {
+  --arc-bg: #030d22;
+  --arc-bg-2: #071a3a;
+  --arc-panel: rgba(9, 32, 68, 0.72);
+  --arc-line: rgba(57, 255, 136, 0.16);
+  --arc-green: #39ff88;
+  --arc-green-dim: #1fae5e;
+  --arc-coral: #ff4f5e;
+  --arc-coral-hot: #ff8a5b;
+  --arc-amber: #ffc94a;
+  --arc-cyan: #7fe9ff;
+  --arc-ink: #d8fbe8;
+  --arc-display: "Bungee", ui-sans-serif, system-ui, sans-serif;
+  --arc-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  min-height: 100dvh;
+  color: var(--arc-ink);
+  font-family: var(--arc-mono);
+  background:
+    radial-gradient(1200px 700px at 50% -10%, rgba(31, 174, 94, 0.18), transparent 60%),
+    radial-gradient(900px 600px at 100% 110%, rgba(255, 79, 94, 0.12), transparent 60%),
+    linear-gradient(180deg, var(--arc-bg-2), var(--arc-bg) 55%);
+  position: relative;
+  overflow-x: clip;
+}
+
+/* faint CRT scanlines over everything */
+.v-arcade::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.025) 0 1px,
+    transparent 1px 3px
+  );
+  z-index: 1;
+}
+
+.v-arcade .arcade-display {
+  font-family: var(--arc-display);
+  letter-spacing: 0.02em;
+}
+
+.v-arcade .arcade-glow-green {
+  color: var(--arc-green);
+  text-shadow:
+    0 0 6px rgba(57, 255, 136, 0.7),
+    0 0 24px rgba(57, 255, 136, 0.35);
+}
+
+.v-arcade .arcade-glow-coral {
+  color: var(--arc-coral);
+  text-shadow:
+    0 0 6px rgba(255, 79, 94, 0.7),
+    0 0 24px rgba(255, 79, 94, 0.35);
+}
+
+.v-arcade .arcade-panel {
+  background: var(--arc-panel);
+  border: 2px solid rgba(57, 255, 136, 0.22);
+  border-radius: 22px;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.4),
+    inset 0 0 40px rgba(57, 255, 136, 0.05),
+    0 12px 40px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+}
+
+.v-arcade .arcade-label {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(216, 251, 232, 0.55);
+}
+
+/* ---------- Fat arcade buttons ---------- */
+.v-arcade .arcade-btn {
+  --btn-face: var(--arc-green);
+  --btn-edge: #0e8a46;
+  --btn-ink: #03230f;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: var(--arc-display);
+  color: var(--btn-ink);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--btn-face), white 28%),
+    var(--btn-face)
+  );
+  border-radius: 999px;
+  border: 3px solid color-mix(in oklab, var(--btn-face), black 45%);
+  box-shadow:
+    0 7px 0 var(--btn-edge),
+    0 10px 30px color-mix(in oklab, var(--btn-face), transparent 55%),
+    inset 0 2px 0 rgba(255, 255, 255, 0.55);
+  transition:
+    transform 90ms ease,
+    box-shadow 90ms ease,
+    filter 120ms ease;
+  cursor: pointer;
+  user-select: none;
+}
+.v-arcade .arcade-btn:hover {
+  filter: brightness(1.08);
+}
+.v-arcade .arcade-btn:active {
+  transform: translateY(5px);
+  box-shadow:
+    0 2px 0 var(--btn-edge),
+    0 4px 16px color-mix(in oklab, var(--btn-face), transparent 60%),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4);
+}
+.v-arcade .arcade-btn:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+}
+.v-arcade .arcade-btn:disabled {
+  filter: grayscale(0.85) brightness(0.6);
+  cursor: not-allowed;
+  transform: none;
+}
+.v-arcade .arcade-btn-coral {
+  --btn-face: var(--arc-coral);
+  --btn-edge: #9b1f2b;
+  --btn-ink: #2a0307;
+}
+.v-arcade .arcade-btn-cyan {
+  --btn-face: var(--arc-cyan);
+  --btn-edge: #1f7c93;
+  --btn-ink: #03202a;
+}
+.v-arcade .arcade-btn-ghost {
+  --btn-face: #12305e;
+  --btn-edge: #06152f;
+  --btn-ink: var(--arc-ink);
+  border-color: rgba(57, 255, 136, 0.35);
+  box-shadow:
+    0 5px 0 var(--btn-edge),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* The big one */
+.v-arcade .arcade-quick {
+  animation: arcade-quick-pulse 2.4s ease-in-out infinite;
+}
+@keyframes arcade-quick-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 9px 0 var(--btn-edge),
+      0 0 0 0 rgba(57, 255, 136, 0.55),
+      0 14px 40px rgba(57, 255, 136, 0.35),
+      inset 0 3px 0 rgba(255, 255, 255, 0.6);
+  }
+  50% {
+    box-shadow:
+      0 9px 0 var(--btn-edge),
+      0 0 0 14px rgba(57, 255, 136, 0),
+      0 14px 60px rgba(57, 255, 136, 0.55),
+      inset 0 3px 0 rgba(255, 255, 255, 0.6);
+  }
+}
+.v-arcade .arcade-quick:active {
+  animation: none;
+  transform: translateY(7px);
+}
+
+/* ---------- Landing radar scope ---------- */
+.v-arcade .arcade-scope {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(57, 255, 136, 0.16),
+      rgba(3, 13, 34, 0.2) 55%,
+      rgba(3, 13, 34, 0.95) 72%
+    ),
+    radial-gradient(circle at 50% 50%, #062a2a, #031326 70%);
+  box-shadow:
+    0 0 0 3px rgba(57, 255, 136, 0.55),
+    0 0 0 12px rgba(7, 26, 58, 0.95),
+    0 0 0 14px rgba(57, 255, 136, 0.25),
+    0 0 80px rgba(57, 255, 136, 0.25),
+    inset 0 0 80px rgba(0, 0, 0, 0.8);
+}
+.v-arcade .arcade-sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(57, 255, 136, 0) 0deg,
+    rgba(57, 255, 136, 0) 270deg,
+    rgba(57, 255, 136, 0.08) 320deg,
+    rgba(57, 255, 136, 0.45) 359deg,
+    rgba(57, 255, 136, 0) 360deg
+  );
+  animation: arcade-spin var(--arc-sweep, 4s) linear infinite;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.v-arcade .arcade-sweep::after {
+  /* the bright leading edge */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 50%;
+  transform: translateX(-1px);
+  background: linear-gradient(0deg, rgba(57, 255, 136, 0.9), rgba(57, 255, 136, 0.15));
+  box-shadow: 0 0 12px rgba(57, 255, 136, 0.9);
+}
+@keyframes arcade-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.v-arcade .arcade-blip {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--arc-green);
+  box-shadow: 0 0 14px var(--arc-green);
+  opacity: 0;
+  animation: arcade-blip 4s linear infinite;
+}
+.v-arcade .arcade-blip[data-tone="coral"] {
+  background: var(--arc-coral);
+  box-shadow: 0 0 14px var(--arc-coral);
+}
+@keyframes arcade-blip {
+  0% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  60% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* HUD stat readouts */
+.v-arcade .arcade-readout {
+  position: relative;
+  padding: 0.7rem 0.9rem;
+  border-radius: 16px;
+  background: rgba(4, 18, 42, 0.8);
+  border: 1px solid rgba(57, 255, 136, 0.28);
+  box-shadow: inset 0 0 24px rgba(57, 255, 136, 0.06);
+}
+.v-arcade .arcade-readout::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--arc-green);
+  box-shadow: 0 0 8px var(--arc-green);
+}
+.v-arcade .arcade-readout[data-side="left"] {
+  padding-right: 1.6rem;
+}
+.v-arcade .arcade-readout[data-side="right"] {
+  padding-left: 1.6rem;
+}
+.v-arcade .arcade-readout[data-side="left"]::before {
+  right: 10px;
+}
+.v-arcade .arcade-readout[data-side="right"]::before {
+  left: 10px;
+}
+
+.v-arcade .arcade-live-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--arc-green);
+  box-shadow: 0 0 10px var(--arc-green);
+  animation: arcade-live 1.4s ease-in-out infinite;
+}
+.v-arcade .arcade-live-dot[data-tone="amber"] {
+  background: var(--arc-amber);
+  box-shadow: 0 0 10px var(--arc-amber);
+}
+@keyframes arcade-live {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* Room code slots */
+.v-arcade .arcade-code {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+.v-arcade .arcade-code-slot {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
+  border-radius: 12px;
+  font-family: var(--arc-display);
+  font-size: 1.35rem;
+  color: var(--arc-cyan);
+  background: rgba(3, 13, 34, 0.9);
+  border: 2px solid rgba(127, 233, 255, 0.22);
+  text-shadow: 0 0 10px rgba(127, 233, 255, 0.6);
+}
+.v-arcade .arcade-code:focus-within .arcade-code-slot[data-active="true"] {
+  border-color: var(--arc-cyan);
+  box-shadow: 0 0 16px rgba(127, 233, 255, 0.45);
+}
+.v-arcade .arcade-code input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: text;
+}
+
+/* ---------- Battle board ---------- */
+.v-arcade .arcade-screen {
+  position: relative;
+  border-radius: 26px;
+  padding: 10px;
+  background: linear-gradient(160deg, #0d2c59, #061430);
+  border: 3px solid rgba(57, 255, 136, 0.35);
+  box-shadow:
+    0 0 0 6px rgba(3, 13, 34, 0.9),
+    0 0 50px rgba(57, 255, 136, 0.18),
+    inset 0 0 30px rgba(0, 0, 0, 0.6);
+}
+.v-arcade .arcade-screen[data-turn="enemy"] {
+  border-color: rgba(255, 79, 94, 0.45);
+  box-shadow:
+    0 0 0 6px rgba(3, 13, 34, 0.9),
+    0 0 50px rgba(255, 79, 94, 0.18),
+    inset 0 0 30px rgba(0, 0, 0, 0.6);
+}
+
+.v-arcade .arcade-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background:
+    linear-gradient(to right, var(--arc-line) 1px, transparent 1px) 0 0 / 10% 10%,
+    linear-gradient(to bottom, var(--arc-line) 1px, transparent 1px) 0 0 / 10% 10%,
+    radial-gradient(circle at 50% 50%, rgba(57, 255, 136, 0.12), transparent 70%),
+    #041a26;
+  box-shadow:
+    inset 0 0 0 1px rgba(57, 255, 136, 0.35),
+    inset 0 0 60px rgba(0, 0, 0, 0.7);
+}
+.v-arcade .arcade-grid-sweep {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150%;
+  aspect-ratio: 1;
+  margin: -75% 0 0 -75%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(57, 255, 136, 0) 0deg,
+    rgba(57, 255, 136, 0) 290deg,
+    rgba(57, 255, 136, 0.07) 330deg,
+    rgba(57, 255, 136, 0.3) 359deg,
+    rgba(57, 255, 136, 0) 360deg
+  );
+  animation: arcade-spin 5s linear infinite;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 3;
+}
+.v-arcade .arcade-screen[data-turn="enemy"] .arcade-grid-sweep {
+  filter: hue-rotate(-140deg) saturate(1.4);
+  animation-duration: 9s;
+  opacity: 0.6;
+}
+.v-arcade .arcade-grid-rings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 0 19.6%,
+      rgba(57, 255, 136, 0.1) 19.8% 20.2%,
+      transparent 20.4%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 0 39.6%,
+      rgba(57, 255, 136, 0.1) 39.8% 40.2%,
+      transparent 40.4%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 0 59.6%,
+      rgba(57, 255, 136, 0.08) 59.8% 60.2%,
+      transparent 60.4%
+    );
+}
+
+.v-arcade .arcade-cell {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  outline: none;
+  cursor: crosshair;
+  transition: background 120ms ease;
+}
+.v-arcade .arcade-cell[aria-disabled="true"] {
+  cursor: default;
+}
+.v-arcade .arcade-grid[data-armed="true"] .arcade-cell[data-cell-state="open"]:hover {
+  background: rgba(57, 255, 136, 0.16);
+  box-shadow: inset 0 0 0 2px rgba(57, 255, 136, 0.7);
+}
+.v-arcade .arcade-cell:focus-visible {
+  background: rgba(57, 255, 136, 0.22);
+  box-shadow:
+    inset 0 0 0 3px #fff,
+    0 0 18px rgba(57, 255, 136, 0.8);
+  z-index: 6;
+}
+.v-arcade .arcade-grid[data-armed="true"] .arcade-cell[data-cell-state="open"]:hover::before,
+.v-arcade
+  .arcade-grid[data-armed="true"]
+  .arcade-cell[data-cell-state="open"]:focus-visible::before {
+  /* crosshair reticle */
+  content: "";
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  border: 2px solid var(--arc-green);
+  box-shadow: 0 0 10px var(--arc-green);
+}
+
+.v-arcade .arcade-miss {
+  width: 26%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid rgba(127, 233, 255, 0.7);
+  box-shadow: 0 0 8px rgba(127, 233, 255, 0.4);
+}
+.v-arcade .arcade-hit {
+  width: 58%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    #fff 0 14%,
+    var(--arc-coral-hot) 30%,
+    var(--arc-coral) 58%,
+    rgba(255, 79, 94, 0) 72%
+  );
+  box-shadow: 0 0 18px rgba(255, 79, 94, 0.85);
+  animation: arcade-hit-flicker 1.8s ease-in-out infinite;
+}
+@keyframes arcade-hit-flicker {
+  50% {
+    filter: brightness(1.25);
+    transform: scale(1.06);
+  }
+}
+
+.v-arcade .arcade-sunk-ship {
+  position: relative;
+  z-index: 2;
+  margin: 3px;
+  border-radius: 999px;
+  border: 2px solid var(--arc-coral);
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 79, 94, 0.35) 0 4px,
+    rgba(255, 79, 94, 0.12) 4px 9px
+  );
+  box-shadow:
+    0 0 18px rgba(255, 79, 94, 0.55),
+    inset 0 0 12px rgba(255, 79, 94, 0.4);
+}
+
+/* Ping ripple */
+.v-arcade .arcade-ping {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  aspect-ratio: 1;
+  margin: -50% 0 0 -50%;
+  border-radius: 50%;
+  border: 2px solid var(--arc-green);
+  pointer-events: none;
+  animation: arcade-ping 1.4s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+  z-index: 5;
+}
+.v-arcade .arcade-ping[data-tone="coral"] {
+  border-color: var(--arc-coral);
+}
+.v-arcade .arcade-ping[data-delay="1"] {
+  animation-delay: 0.22s;
+  opacity: 0;
+}
+.v-arcade .arcade-ping[data-delay="2"] {
+  animation-delay: 0.44s;
+  opacity: 0;
+}
+@keyframes arcade-ping {
+  0% {
+    transform: scale(0.3);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(5);
+    opacity: 0;
+  }
+}
+
+/* Mini board (my fleet) */
+.v-arcade .arcade-mini {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background:
+    linear-gradient(to right, rgba(57, 255, 136, 0.1) 1px, transparent 1px) 0 0 / 10% 10%,
+    linear-gradient(to bottom, rgba(57, 255, 136, 0.1) 1px, transparent 1px) 0 0 / 10% 10%,
+    #041a26;
+  box-shadow: inset 0 0 0 1px rgba(57, 255, 136, 0.3);
+}
+.v-arcade .arcade-mini-ship {
+  margin: 1px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(57, 255, 136, 0.55), rgba(31, 174, 94, 0.45));
+  box-shadow: inset 0 0 0 1px rgba(57, 255, 136, 0.9);
+}
+.v-arcade .arcade-mini-ship[data-sunk="true"] {
+  background: rgba(255, 79, 94, 0.25);
+  box-shadow: inset 0 0 0 1px var(--arc-coral);
+}
+.v-arcade .arcade-mini-cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+}
+
+/* Clock gauge */
+.v-arcade .arcade-gauge-arc {
+  transition:
+    stroke-dashoffset 300ms linear,
+    stroke 300ms ease;
+}
+.v-arcade .arcade-gauge[data-urgent="true"] {
+  animation: arcade-urgent 0.5s ease-in-out infinite alternate;
+}
+@keyframes arcade-urgent {
+  to {
+    transform: scale(1.06);
+  }
+}
+
+/* Terminal ticker */
+.v-arcade .arcade-terminal {
+  font-family: var(--arc-mono);
+  background:
+    repeating-linear-gradient(0deg, rgba(57, 255, 136, 0.04) 0 1px, transparent 1px 3px), #020a14;
+  border-radius: 16px;
+  border: 2px solid rgba(57, 255, 136, 0.25);
+  box-shadow: inset 0 0 30px rgba(57, 255, 136, 0.08);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(57, 255, 136, 0.4) transparent;
+}
+.v-arcade .arcade-caret {
+  display: inline-block;
+  width: 0.6em;
+  height: 1em;
+  vertical-align: -0.15em;
+  background: var(--arc-green);
+  animation: arcade-live 1s steps(1) infinite;
+}
+
+.v-arcade .arcade-pip {
+  width: 12px;
+  height: 8px;
+  border-radius: 3px;
+  border: 1.5px solid currentColor;
+}
+.v-arcade .arcade-pip[data-filled="true"] {
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v-arcade .arcade-sweep,
+  .v-arcade .arcade-grid-sweep,
+  .v-arcade .arcade-blip,
+  .v-arcade .arcade-quick,
+  .v-arcade .arcade-hit,
+  .v-arcade .arcade-gauge,
+  .v-arcade .arcade-live-dot {
+    animation: none;
+  }
+  .v-arcade .arcade-blip {
+    opacity: 0.6;
+  }
+}
+
+/* ---------- Battle cockpit layout ---------- */
+.v-arcade .arcade-battle {
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  grid-template-areas:
+    "mine clock"
+    "board board"
+    "fleet fleet"
+    "log log";
+  align-content: start;
+}
+.v-arcade .arcade-area-mine {
+  grid-area: mine;
+}
+.v-arcade .arcade-area-clock {
+  grid-area: clock;
+}
+.v-arcade .arcade-area-board {
+  grid-area: board;
+}
+.v-arcade .arcade-area-fleet {
+  grid-area: fleet;
+}
+.v-arcade .arcade-area-log {
+  grid-area: log;
+}
+@media (min-width: 640px) {
+  .v-arcade .arcade-battle {
+    grid-template-columns: 11rem minmax(0, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .v-arcade .arcade-battle {
+    grid-template-columns: 17rem minmax(0, 1fr) 20rem;
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+      "mine board clock"
+      "fleet board log";
+    align-content: stretch;
+  }
+}
