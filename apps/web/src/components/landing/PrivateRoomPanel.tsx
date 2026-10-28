@@ -49,7 +49,7 @@ export function PrivateRoomPanel({
         <span className="h-px flex-1 bg-white/10" />
       </div>
 
-      <form onSubmit={submit} className="flex flex-col gap-3">
+      <form onSubmit={submit} autoComplete="off" className="flex flex-col gap-3">
         <label htmlFor={inputId} className="sr-only">
           Room code, {ROOM_CODE_LENGTH} characters
         </label>
@@ -67,15 +67,27 @@ export function PrivateRoomPanel({
               {code[i] ?? <span className="text-white/15">·</span>}
             </span>
           ))}
+          {/* Password managers (iCloud Passwords, 1Password, LastPass, Bitwarden, Dashlane) read a
+              short "code" field as a credential and pop up over the slots. type="search" is the
+              signal they all skip; the data-* attributes are each manager's own opt-out. */}
           <input
             id={inputId}
+            type="search"
+            name="sonar-room"
             value={code}
             onChange={(event) => setCode(normalizeRoomCode(event.target.value))}
             autoComplete="off"
+            autoCorrect="off"
             autoCapitalize="characters"
             spellCheck={false}
+            enterKeyHint="go"
             maxLength={ROOM_CODE_LENGTH}
-            className="absolute inset-0 w-full cursor-text opacity-0"
+            data-1p-ignore=""
+            data-lpignore="true"
+            data-bwignore=""
+            data-form-type="other"
+            data-protonpass-ignore=""
+            className="absolute inset-0 w-full cursor-text appearance-none opacity-0 [&::-webkit-search-cancel-button]:hidden"
           />
         </div>
         <Button type="submit" variant="outline" disabled={!ready} className="w-full">
