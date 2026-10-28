@@ -10,7 +10,7 @@ No sign-up, no install. Works on a laptop or a phone.
 
 ### [▸ Play at sonar.saeed.sh](https://sonar.saeed.sh)
 
-[![CI](https://github.com/Stringsaeed/multiplayer-battleship/actions/workflows/ci.yml/badge.svg)](https://github.com/Stringsaeed/multiplayer-battleship/actions/workflows/ci.yml)
+[![CI](https://github.com/Stringsaeed/sonar/actions/workflows/ci.yml/badge.svg)](https://github.com/Stringsaeed/sonar/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-39ff88.svg)](LICENSE)
 [![Cloudflare Workers](https://img.shields.io/badge/runs%20on-Cloudflare%20Workers-f38020.svg)](https://workers.cloudflare.com)
 
