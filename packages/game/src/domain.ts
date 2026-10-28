@@ -28,3 +28,37 @@ export type MatchMode = typeof MatchMode.Type;
 
 export const EndReason = Schema.Literals(["sunk", "forfeit", "disconnect"]);
 export type EndReason = typeof EndReason.Type;
+
+/** Epoch milliseconds. */
+export const Timestamp = Schema.Int.check(Schema.isGreaterThanOrEqualTo(0));
+export type Timestamp = typeof Timestamp.Type;
+
+export const Seat = Schema.Literals([0, 1]);
+export type Seat = typeof Seat.Type;
+
+export const otherSeat = (seat: Seat): Seat => (seat === 0 ? 1 : 0);
+
+export const Placement = Schema.Struct({
+  kind: ShipKind,
+  origin: Coord,
+  orientation: Orientation,
+});
+export type Placement = typeof Placement.Type;
+
+/** Any subset of the fleet, at most one of each ship. Checked for overlap by `validateFleet`. */
+export const Fleet = Schema.Array(Placement).check(Schema.isMaxLength(FLEET.length));
+export type Fleet = typeof Fleet.Type;
+
+export const ShotResult = Schema.Literals(["miss", "hit"]);
+export type ShotResult = typeof ShotResult.Type;
+
+export const Shot = Schema.Struct({
+  at: Coord,
+  by: Seat,
+  result: ShotResult,
+  sunk: Schema.optionalKey(ShipKind),
+  /** Fired by the server because the turn clock ran out. */
+  auto: Schema.Boolean,
+  firedAt: Timestamp,
+});
+export type Shot = typeof Shot.Type;

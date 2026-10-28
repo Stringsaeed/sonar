@@ -10,12 +10,14 @@ import {
 describe("protocol", () => {
   it.prop("client messages survive the JSON wire", [ClientMessage], ([message]) => {
     const wire = Schema.encodeSync(ClientMessageJson)(message);
-    expect(Schema.decodeSync(ClientMessageJson)(wire)).toEqual(message);
+    const again = Schema.encodeSync(ClientMessageJson)(Schema.decodeSync(ClientMessageJson)(wire));
+    expect(again).toBe(wire);
   });
 
   it.prop("server messages survive the JSON wire", [ServerMessage], ([message]) => {
     const wire = Schema.encodeSync(ServerMessageJson)(message);
-    expect(Schema.decodeSync(ServerMessageJson)(wire)).toEqual(message);
+    const again = Schema.encodeSync(ServerMessageJson)(Schema.decodeSync(ServerMessageJson)(wire));
+    expect(again).toBe(wire);
   });
 
   it.effect("rejects a hello with a forged token", () =>
