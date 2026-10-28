@@ -13,6 +13,7 @@ import {
 } from "@sonar/game";
 import { Effect } from "effect";
 import { useEffect, useEffectEvent, useState } from "react";
+import { playCue } from "@/lib/sound";
 import {
   cellName,
   grab,
@@ -95,6 +96,7 @@ export function usePlacementEditor(initial: Fleet, locked: boolean) {
     }
     const next = withShip(fleet, placement);
     const following = nextUnplaced(next);
+    playCue("ui-place");
     setFleet(next);
     setHeld(following ? { kind: following, offset: 0 } : undefined);
     tell(
@@ -114,6 +116,7 @@ export function usePlacementEditor(initial: Fleet, locked: boolean) {
     const occupant = shipAt(fleet, cell);
     if (occupant && occupant.kind !== hand?.kind) {
       lift(grab(occupant, cell));
+      playCue("ui-place");
       setAnchor(cell);
       tell(`Picked up your ${occupant.kind}. Choose where it goes.`);
       return;
@@ -140,6 +143,7 @@ export function usePlacementEditor(initial: Fleet, locked: boolean) {
     if (!hand) return;
     const next = orientation === "horizontal" ? "vertical" : "horizontal";
     setOrientation(next);
+    playCue("ui-rotate");
     tell(`${shipName(hand.kind)} ${next}.`);
   };
 
@@ -152,6 +156,7 @@ export function usePlacementEditor(initial: Fleet, locked: boolean) {
   const randomize = () => {
     if (locked) return;
     setFleet(Effect.runSync(randomFleet));
+    playCue("ui-randomize");
     setHeld(undefined);
     tell("Fleet placed at random. Ready when you are.");
   };

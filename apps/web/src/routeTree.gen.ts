@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlayRouteImport } from './routes/play'
+import { Route as DevSoundsRouteImport } from './routes/dev.sounds'
 import { Route as QIdRouteImport } from './routes/q.$id'
 import { Route as RCodeRouteImport } from './routes/r.$code'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const PlayRoute = PlayRouteImport.update({
   id: '/play',
   path: '/play',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevSoundsRoute = DevSoundsRouteImport.update({
+  id: '/dev/sounds',
+  path: '/dev/sounds',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QIdRoute = QIdRouteImport.update({
@@ -38,12 +44,14 @@ const RCodeRoute = RCodeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/play': typeof PlayRoute
+  '/dev/sounds': typeof DevSoundsRoute
   '/q/$id': typeof QIdRoute
   '/r/$code': typeof RCodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/play': typeof PlayRoute
+  '/dev/sounds': typeof DevSoundsRoute
   '/q/$id': typeof QIdRoute
   '/r/$code': typeof RCodeRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/play': typeof PlayRoute
+  '/dev/sounds': typeof DevSoundsRoute
   '/q/$id': typeof QIdRoute
   '/r/$code': typeof RCodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/play' | '/q/$id' | '/r/$code'
+  fullPaths: '/' | '/play' | '/dev/sounds' | '/q/$id' | '/r/$code'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/play' | '/q/$id' | '/r/$code'
-  id: '__root__' | '/' | '/play' | '/q/$id' | '/r/$code'
+  to: '/' | '/play' | '/dev/sounds' | '/q/$id' | '/r/$code'
+  id: '__root__' | '/' | '/play' | '/dev/sounds' | '/q/$id' | '/r/$code'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PlayRoute: typeof PlayRoute
+  DevSoundsRoute: typeof DevSoundsRoute
   QIdRoute: typeof QIdRoute
   RCodeRoute: typeof RCodeRoute
 }
@@ -83,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/play'
       fullPath: '/play'
       preLoaderRoute: typeof PlayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dev/sounds': {
+      id: '/dev/sounds'
+      path: '/dev/sounds'
+      fullPath: '/dev/sounds'
+      preLoaderRoute: typeof DevSoundsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/q/$id': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PlayRoute: PlayRoute,
+  DevSoundsRoute: DevSoundsRoute,
   QIdRoute: QIdRoute,
   RCodeRoute: RCodeRoute,
 }

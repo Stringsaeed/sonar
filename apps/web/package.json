@@ -7,7 +7,9 @@
     "dev": "vp dev",
     "build": "vp build",
     "preview": "vp preview",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "sfx:generate": "node scripts/sfx-generate.ts",
+    "sfx:encode": "node scripts/sfx-encode.ts"
   },
   "dependencies": {
     "@effect/atom-react": "catalog:",

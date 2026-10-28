@@ -3,6 +3,8 @@ import { useNavigate } from "@tanstack/react-router";
 import { MotionConfig } from "motion/react";
 import { useState } from "react";
 import { useSecondsLeft, type RoomState } from "@/lib/room";
+import { SoundToggles } from "@/components/SoundToggles";
+import { playCue } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 import { ClockGauge } from "./battle/ClockGauge";
 import { EnemyBoard } from "./battle/EnemyBoard";
@@ -13,6 +15,7 @@ import { describeShot, fleetStatus, isSunk, shipName, shotLog, type Turn } from 
 import { ResultOverlay } from "./battle/ResultOverlay";
 import { Ticker } from "./battle/Ticker";
 import { useArrivals } from "./battle/useArrivals";
+import { useBattleSounds } from "./battle/useBattleSounds";
 import { OpponentStatus } from "./OpponentStatus";
 import type { PhaseScreenProps } from "./types";
 import "./battle/battle.css";
@@ -61,6 +64,7 @@ export function BattleScreen({
   );
 
   const arrivals = useArrivals(phase.incoming, phase.outgoing);
+  useBattleSounds({ latest: arrivals.latest, turn, secondsLeft, won: over?.won });
   const log = shotLog(phase.incoming, phase.outgoing);
   const lastSink = log.findLast((entry) => entry.shot.sunk !== undefined);
 
@@ -77,6 +81,7 @@ export function BattleScreen({
   const fire = (at: Coord) => {
     if (!armed) return;
     setPending({ at, view, rejection });
+    playCue("fire");
     send({ _tag: "Fire", at });
   };
 
@@ -102,6 +107,7 @@ export function BattleScreen({
       >
         <header className="hud-panel flex items-center gap-2 !rounded-full px-3 py-2 sm:gap-4 sm:px-5">
           <Matchup me={view.me.callsign} opponent={opponent} />
+          <SoundToggles className="max-sm:hidden" />
           {!over && <ForfeitButton onForfeit={() => send({ _tag: "Forfeit" })} />}
         </header>
 

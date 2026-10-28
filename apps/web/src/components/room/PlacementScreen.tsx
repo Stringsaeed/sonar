@@ -4,6 +4,7 @@ import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { Button } from "@/components/ui/button";
+import { playCue } from "@/lib/sound";
 import { cn } from "@/lib/utils";
 import { OpponentStatus } from "./OpponentStatus";
 import { DeploymentStatus } from "./placement/DeploymentStatus";
@@ -107,6 +108,7 @@ export function PlacementScreen({
     if (!complete || locked) return;
     lastDraft.current = editor.fleet;
     setReadySentAt(Date.now());
+    playCue("ui-ready");
     send({ _tag: "Ready", fleet: editor.fleet });
   };
 

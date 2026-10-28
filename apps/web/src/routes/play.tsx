@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { formatDuration } from "@/lib/format";
 import { loadIdentity } from "@/lib/identity";
 import { useDock } from "@/lib/matchmaker";
+import { playCue } from "@/lib/sound";
 
 export const Route = createFileRoute("/play")({ component: QuickMatch });
 
@@ -28,6 +29,7 @@ function QuickMatch() {
 
   useEffect(() => {
     if (dock.matchedRoom) {
+      playCue("match-found");
       void navigate({ to: "/q/$id", params: { id: dock.matchedRoom.slice(2) }, replace: true });
     }
   }, [dock.matchedRoom, navigate]);

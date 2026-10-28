@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Radar } from "lucide-react";
 import type { ReactNode } from "react";
+import { SoundToggles } from "./SoundToggles";
 
 export function AppHeader({ children }: { children?: ReactNode }) {
   return (
@@ -9,7 +10,10 @@ export function AppHeader({ children }: { children?: ReactNode }) {
         <Radar className="size-6 text-sonar-green" strokeWidth={2.5} aria-hidden="true" />
         <span className="glow-green font-display text-lg">SONAR</span>
       </Link>
-      {children}
+      <div className="flex items-center gap-2 sm:gap-3">
+        {children}
+        <SoundToggles />
+      </div>
     </header>
   );
 }
