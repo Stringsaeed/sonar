@@ -1,0 +1,210 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@theme {
+  --color-sonar-green: #39ff88;
+  --color-sonar-green-deep: #06301f;
+  --color-sonar-coral: #ff4f5e;
+  --color-sonar-coral-deep: #3a0d17;
+  --color-sonar-amber: #ffc94a;
+  --color-sonar-cyan: #7fe9ff;
+  --color-sonar-cyan-deep: #0d2c59;
+  --color-sonar-ink: #d8fbe8;
+  --color-sonar-navy: #12305e;
+  --color-sonar-abyss: #030d22;
+  --color-sonar-trench: #071a3a;
+
+  --font-display: "Bungee", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+/* Sonar is dark-only: the shadcn tokens map straight onto the arcade palette. */
+:root {
+  color-scheme: dark;
+  --radius: 1rem;
+  --background: var(--color-sonar-abyss);
+  --foreground: var(--color-sonar-ink);
+  --card: rgb(9 32 68 / 0.72);
+  --card-foreground: var(--color-sonar-ink);
+  --popover: var(--color-sonar-trench);
+  --popover-foreground: var(--color-sonar-ink);
+  --primary: var(--color-sonar-green);
+  --primary-foreground: #03230f;
+  --secondary: var(--color-sonar-cyan);
+  --secondary-foreground: #03202a;
+  --muted: rgb(0 0 0 / 0.25);
+  --muted-foreground: rgb(216 251 232 / 0.6);
+  --accent: var(--color-sonar-navy);
+  --accent-foreground: var(--color-sonar-ink);
+  --destructive: var(--color-sonar-coral);
+  --border: rgb(57 255 136 / 0.22);
+  --input: rgb(127 233 255 / 0.22);
+  --ring: var(--color-sonar-green);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  /* A game screen, not a document: no sideways panning, no double-tap zoom, no text inflation. */
+  html {
+    overflow-x: clip;
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+  }
+  /* The background runs under the status bar and home indicator; the app stays inside the safe area. */
+  #root {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+      env(safe-area-inset-left);
+  }
+  body {
+    @apply min-h-dvh overflow-x-clip font-mono text-foreground;
+    background:
+      radial-gradient(1200px 700px at 50% -10%, rgb(31 174 94 / 0.18), transparent 60%),
+      radial-gradient(900px 600px at 100% 110%, rgb(255 79 94 / 0.12), transparent 60%),
+      linear-gradient(180deg, var(--color-sonar-trench), var(--color-sonar-abyss) 55%)
+        /* What browsers paint past the page edge when you overscroll; the top of the gradient. */
+        var(--color-sonar-trench);
+  }
+  /* faint CRT scanlines over everything */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      rgb(255 255 255 / 0.025) 0 1px,
+      transparent 1px 3px
+    );
+  }
+}
+
+@utility glow-green {
+  color: var(--color-sonar-green);
+  text-shadow:
+    0 0 6px rgb(57 255 136 / 0.7),
+    0 0 24px rgb(57 255 136 / 0.35);
+}
+
+@utility glow-coral {
+  color: var(--color-sonar-coral);
+  text-shadow:
+    0 0 6px rgb(255 79 94 / 0.7),
+    0 0 24px rgb(255 79 94 / 0.35);
+}
+
+@utility hud-label {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgb(216 251 232 / 0.55);
+}
+
+@utility hud-panel {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 22px;
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 0.4),
+    inset 0 0 40px rgb(57 255 136 / 0.05),
+    0 12px 40px rgb(0 0 0 / 0.35);
+  backdrop-filter: blur(6px);
+}
+
+@utility live-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 10px currentColor;
+  animation: live-blink 1.4s ease-in-out infinite;
+}
+
+@keyframes live-blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* Fat arcade buttons. Variants set --btn-face / --btn-edge / --btn-ink (see components/ui/button.tsx). */
+@layer components {
+  .btn-arcade {
+    --btn-face: var(--color-sonar-green);
+    --btn-edge: #0e8a46;
+    --btn-ink: #03230f;
+    --btn-depth: 7px;
+    font-family: var(--font-display);
+    color: var(--btn-ink);
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--btn-face), white 28%),
+      var(--btn-face)
+    );
+    border: 3px solid color-mix(in oklab, var(--btn-face), black 45%);
+    box-shadow:
+      0 var(--btn-depth) 0 var(--btn-edge),
+      0 10px 30px color-mix(in oklab, var(--btn-face), transparent 55%),
+      inset 0 2px 0 rgb(255 255 255 / 0.55);
+    transition:
+      transform 90ms ease,
+      box-shadow 90ms ease,
+      filter 120ms ease;
+  }
+  .btn-arcade:hover {
+    filter: brightness(1.08);
+  }
+  .btn-arcade:active:not(:disabled) {
+    transform: translateY(calc(var(--btn-depth) - 2px));
+    box-shadow:
+      0 2px 0 var(--btn-edge),
+      0 4px 16px color-mix(in oklab, var(--btn-face), transparent 60%),
+      inset 0 2px 0 rgb(255 255 255 / 0.4);
+  }
+  .btn-arcade:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 4px;
+  }
+  .btn-arcade:disabled {
+    filter: grayscale(0.85) brightness(0.6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+  }
+}

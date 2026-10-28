@@ -1,0 +1,114 @@
+.radar-scope {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgb(57 255 136 / 0.16),
+      rgb(3 13 34 / 0.2) 55%,
+      rgb(3 13 34 / 0.95) 72%
+    ),
+    radial-gradient(circle at 50% 50%, #062a2a, #031326 70%);
+  box-shadow:
+    0 0 0 3px rgb(57 255 136 / 0.55),
+    0 0 0 12px rgb(7 26 58 / 0.95),
+    0 0 0 14px rgb(57 255 136 / 0.25),
+    0 0 80px rgb(57 255 136 / 0.25),
+    inset 0 0 80px rgb(0 0 0 / 0.8);
+}
+
+.radar-sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgb(57 255 136 / 0) 0deg,
+    rgb(57 255 136 / 0) 270deg,
+    rgb(57 255 136 / 0.08) 320deg,
+    rgb(57 255 136 / 0.45) 359deg,
+    rgb(57 255 136 / 0) 360deg
+  );
+  animation: radar-spin var(--radar-period) linear infinite;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* the bright leading edge */
+.radar-sweep::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 50%;
+  transform: translateX(-1px);
+  background: linear-gradient(0deg, rgb(57 255 136 / 0.9), rgb(57 255 136 / 0.15));
+  box-shadow: 0 0 12px rgb(57 255 136 / 0.9);
+}
+
+@keyframes radar-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.radar-blip {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 14px currentColor;
+  opacity: 0;
+  animation: radar-blip var(--radar-period) linear infinite;
+}
+
+@keyframes radar-blip {
+  0% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  60% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radar-blip {
+    opacity: 0.6;
+  }
+}
+
+.quick-match-pulse {
+  animation: quick-match-pulse 2.4s ease-in-out infinite;
+}
+.quick-match-pulse:active {
+  animation: none;
+}
+
+@keyframes quick-match-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 9px 0 var(--btn-edge),
+      0 0 0 0 rgb(57 255 136 / 0.55),
+      0 14px 40px rgb(57 255 136 / 0.35),
+      inset 0 3px 0 rgb(255 255 255 / 0.6);
+  }
+  50% {
+    box-shadow:
+      0 9px 0 var(--btn-edge),
+      0 0 0 14px rgb(57 255 136 / 0),
+      0 14px 60px rgb(57 255 136 / 0.55),
+      inset 0 3px 0 rgb(255 255 255 / 0.6);
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "fire": {
+    "prompt": "Arcade submarine torpedo launch: sharp pneumatic thump and hiss followed by a quick underwater whoosh moving away. Punchy, clean, no music.",
+    "seconds": 1.2
+  },
+  "splash": {
+    "prompt": "A single small shell plunging into the ocean: short sharp water splash with a brief bubbly fizz. Clean game sound effect, no music.",
+    "seconds": 1
+  },
+  "explosion": {
+    "prompt": "Arcade naval direct hit: punchy explosion on a metal warship hull, deep boom with a metallic clang and a short crackling debris tail. Game sound effect, no music.",
+    "seconds": 2
+  },
+  "sink": {
+    "prompt": "A warship sinking after a final explosion: big deep boom, then groaning twisting metal and rushing water with bubbles fading out. Cinematic game sound effect, no music.",
+    "seconds": 4
+  },
+  "your-turn": {
+    "prompt": "Single clean submarine sonar ping, bright high tone with a long echoing underwater reverb tail. Clear and iconic.",
+    "seconds": 1.8
+  },
+  "clock-tick": {
+    "prompt": "Single short tense electronic countdown beep, crisp high-pitched blip, dry, no reverb.",
+    "seconds": 0.5
+  },
+  "match-found": {
+    "prompt": "Retro arcade radar contact alert: two quick rising electronic blips then a bright confirmation tone. Exciting and clean.",
+    "seconds": 1.5
+  },
+  "victory": {
+    "prompt": "Short triumphant arcade victory fanfare: bright synth brass and rising notes, naval adventure feel, ending on a strong major chord.",
+    "seconds": 4
+  },
+  "defeat": {
+    "prompt": "Short arcade game-over sting: descending sad synth notes ending on a low tone, with a few sinking bubbles.",
+    "seconds": 4
+  },
+  "ui-place": {
+    "prompt": "Short heavy metallic clunk of a game piece locking onto a steel board, tight and satisfying, dry.",
+    "seconds": 0.5
+  },
+  "ui-rotate": {
+    "prompt": "Very short mechanical servo whirr turning a part, crisp game UI sound.",
+    "seconds": 0.5
+  },
+  "ui-randomize": {
+    "prompt": "Quick shuffle of metal game pieces sliding and clattering, then settling with a click. Short game UI sound.",
+    "seconds": 1
+  },
+  "ui-ready": {
+    "prompt": "Submarine control console confirmation: hydraulic lock engaging with a hiss, followed by a bright two-note chime. Short game UI sound.",
+    "seconds": 1.5
+  },
+  "ambient-hum": {
+    "prompt": "Seamless submarine interior ambience: low steady engine hum, soft distant hull creaks and gentle water pressure, calm and deep. No music.",
+    "seconds": 20,
+    "loop": true,
+    "takes": 2
+  },
+  "ambient-ping": {
+    "prompt": "Very distant, faint submarine sonar ping echoing deep underwater, soft and muffled.",
+    "seconds": 3
+  }
+}
