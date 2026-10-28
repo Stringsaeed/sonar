@@ -1,17 +1,42 @@
-import { expect, type Page, test } from "@playwright/test";
+import { type Browser, expect, type Page, test } from "@playwright/test";
 
 const enemyCell = (page: Page, label: string) =>
   page.getByRole("button", { name: new RegExp(`^${label}, `) });
 
+// The longest callsign the generator can make, so the header is at its widest.
+const pilot = async (browser: Browser) => {
+  const page = await browser.newPage();
+  await page.addInitScript(() => localStorage.setItem("sonar.callsign", "Silent Barnacle"));
+  return page;
+};
+
+// A page wider than the screen makes mobile browsers zoom out, which puts sticky controls
+// out of reach. Long random callsigns are the usual culprit.
+const expectNoSidewaysScroll = async (...pages: Page[]) => {
+  for (const page of pages) {
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        ),
+      )
+      .toBe(0);
+  }
+};
+
 test("two players deploy, trade fire, and a forfeit ends in a rematch", async ({ browser }) => {
-  const host = await browser.newPage();
-  const guest = await browser.newPage();
+  const host = await pilot(browser);
+  const guest = await pilot(browser);
 
   await host.goto("/");
   await host.getByRole("button", { name: "Create room" }).click();
   await expect(host).toHaveURL(/\/r\/[2-9A-Z]{6}$/);
   await guest.goto(host.url());
 
+  for (const page of [host, guest]) {
+    await expect(page.getByRole("button", { name: "Randomize" })).toBeVisible();
+  }
+  await expectNoSidewaysScroll(host, guest);
   for (const page of [host, guest]) {
     await page.getByRole("button", { name: "Randomize" }).click();
     await page.getByRole("button", { name: "Ready for battle" }).click();
@@ -25,6 +50,7 @@ test("two players deploy, trade fire, and a forfeit ends in a rematch", async ({
       .then(() => page);
   const shooter = await Promise.race([armed(host), armed(guest)]);
   const defender = shooter === host ? guest : host;
+  await expectNoSidewaysScroll(host, guest);
 
   await enemyCell(shooter, "A1").click();
   await expect(enemyCell(shooter, "A1")).toHaveAttribute("aria-label", /^A1, (hit|miss)/);
@@ -35,6 +61,7 @@ test("two players deploy, trade fire, and a forfeit ends in a rematch", async ({
   await defender.getByRole("button", { name: "Confirm forfeit" }).click();
   await expect(shooter.getByText("Victory", { exact: false }).first()).toBeVisible();
   await expect(defender.getByText("Defeat", { exact: false }).first()).toBeVisible();
+  await expectNoSidewaysScroll(host, guest);
 
   await shooter.getByRole("button", { name: "Rematch" }).click();
   await defender.getByRole("button", { name: "Accept rematch" }).click();
