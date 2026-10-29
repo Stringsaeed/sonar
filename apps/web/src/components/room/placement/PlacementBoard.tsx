@@ -1,12 +1,4 @@
-import {
-  BOARD_SIZE,
-  coordKey,
-  placementCells,
-  sameCoord,
-  SHIP_LENGTH,
-  shipAt,
-  type Coord,
-} from "@sonar/game";
+import { BOARD_SIZE, coordKey, placementCells, sameCoord, shipAt, type Coord } from "@sonar/game";
 import { motion } from "motion/react";
 import {
   useId,
@@ -29,7 +21,7 @@ import {
   ROWS,
   type Held,
 } from "./fleet";
-import { ShipCapsule, type CapsuleTone } from "./ShipCapsule";
+import { ShipSprite, type ShipTone } from "../ShipSprite";
 import type { DragState } from "./useShipDrag";
 import type { InputVia, PlacementEditor } from "./usePlacementEditor";
 import "./placement.css";
@@ -87,7 +79,8 @@ export function PlacementBoard({
   const occupant = target && shipAt(fleet, target);
   const grabbable = !drag && occupant && occupant.kind !== held?.kind ? occupant : undefined;
   const preview = held && target && !grabbable ? heldAt(held, orientation, target) : undefined;
-  const previewCells = preview ? placementCells(preview).filter(inBounds) : [];
+  const previewRun = preview ? placementCells(preview) : [];
+  const previewCells = previewRun.filter(inBounds);
   const legal = preview !== undefined && placementProblem(fleet, preview) === undefined;
   const focus = target ?? cursor;
 
@@ -109,7 +102,7 @@ export function PlacementBoard({
     moveCursor(next);
   };
 
-  const toneOf = (kind: string): CapsuleTone =>
+  const toneOf = (kind: string): ShipTone =>
     locked ? "ship" : held?.kind === kind ? "lifted" : grabbable?.kind === kind ? "hover" : "ship";
 
   return (
@@ -186,8 +179,8 @@ export function PlacementBoard({
               className="pointer-events-none relative z-[2] p-[2px] sm:p-[3px]"
               style={areaOf(placementCells(ship))}
             >
-              <ShipCapsule
-                length={SHIP_LENGTH[ship.kind]}
+              <ShipSprite
+                kind={ship.kind}
                 orientation={ship.orientation}
                 tone={toneOf(ship.kind)}
               />
@@ -199,10 +192,11 @@ export function PlacementBoard({
               className="pointer-events-none relative z-[3] p-[2px] sm:p-[3px]"
               style={areaOf(previewCells)}
             >
-              <ShipCapsule
-                length={previewCells.length}
+              <ShipSprite
+                kind={preview.kind}
                 orientation={preview.orientation}
                 tone={legal ? "legal" : "illegal"}
+                window={{ start: previewRun.findIndex(inBounds), count: previewCells.length }}
               />
             </span>
           )}

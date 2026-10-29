@@ -1,6 +1,6 @@
 import { coordKey, sameCoord, type Fleet, type Shot } from "@sonar/game";
-import { cn } from "@/lib/utils";
 import { Ping } from "./effects";
+import { ShipSprite } from "../ShipSprite";
 import { cellArea, isSunk, shipArea } from "./model";
 import type { Arrival } from "./useArrivals";
 
@@ -25,16 +25,14 @@ export function MiniBoard({
       aria-label={`Your fleet: ${hits} ${hits === 1 ? "hit" : "hits"} taken, ${lost} of ${fleet.length} ships lost.`}
     >
       {fleet.map((ship) => (
-        <span
-          key={ship.kind}
-          style={shipArea(ship)}
-          className={cn(
-            "m-px rounded-full",
-            isSunk(ship, incoming)
-              ? "bg-sonar-coral/25 shadow-[inset_0_0_0_1px_var(--color-sonar-coral)]"
-              : "bg-linear-to-b from-sonar-green/55 to-[#1fae5e]/45 shadow-[inset_0_0_0_1px_rgb(57_255_136/0.9)]",
-          )}
-        />
+        <span key={ship.kind} style={shipArea(ship)} className="p-px">
+          <ShipSprite
+            kind={ship.kind}
+            orientation={ship.orientation}
+            tone={isSunk(ship, incoming) ? "sunk" : "ship"}
+            className="ship-sprite-compact"
+          />
+        </span>
       ))}
       {incoming.map((shot) => {
         const fresh = arrival !== undefined && sameCoord(arrival.shot.at, shot.at);

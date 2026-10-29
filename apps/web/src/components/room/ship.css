@@ -1,0 +1,83 @@
+/* Ship sprite palettes. Each tone sets the paint the sprite's parts read, so one drawing serves the
+   fleet at rest, a lifted or previewed ship, and a wreck. */
+.ship-sprite {
+  --ship-light: #b4c0cb;
+  --ship-shade: #55626f;
+  --ship-deck: #84919e;
+  --ship-detail: #333e49;
+  --ship-hi: #e2e9ef;
+  --ship-mark: rgb(255 255 255 / 0.55);
+  --ship-rim: rgb(57 255 136 / 0.9);
+  --ship-glow: rgb(57 255 136 / 0.4);
+  filter: drop-shadow(0 0 5px var(--ship-glow)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.55));
+}
+
+.ship-sprite-hull {
+  stroke: var(--ship-rim);
+  stroke-width: 1.5px;
+  stroke-linejoin: round;
+}
+
+.ship-sprite[data-tone="hover"] {
+  --ship-light: #d3dce4;
+  --ship-shade: #6c7a88;
+  --ship-deck: #a1adb8;
+  --ship-rim: #fff;
+  --ship-glow: rgb(57 255 136 / 0.85);
+}
+
+/* The ship in hand leaves a ghost where it was. */
+.ship-sprite[data-tone="lifted"] {
+  --ship-rim: var(--color-sonar-cyan);
+  --ship-glow: transparent;
+  opacity: 0.35;
+}
+
+.ship-sprite[data-tone="legal"] {
+  --ship-light: #9df5c2;
+  --ship-shade: #2c8a58;
+  --ship-deck: #5fcf92;
+  --ship-detail: #1b5a3a;
+  --ship-rim: var(--color-sonar-green);
+  --ship-glow: rgb(57 255 136 / 0.7);
+  opacity: 0.85;
+}
+
+.ship-sprite[data-tone="illegal"] {
+  --ship-light: #ffb0b7;
+  --ship-shade: #a1303c;
+  --ship-deck: #d66470;
+  --ship-detail: #641b24;
+  --ship-rim: var(--color-sonar-coral);
+  --ship-glow: rgb(255 79 94 / 0.7);
+  opacity: 0.85;
+}
+
+/* A wreck: scorched steel ringed in coral. */
+.ship-sprite[data-tone="sunk"] {
+  --ship-light: #5a474b;
+  --ship-shade: #261a1d;
+  --ship-deck: #3d2d31;
+  --ship-detail: #160d10;
+  --ship-hi: #8a6d72;
+  --ship-mark: rgb(255 79 94 / 0.35);
+  --ship-rim: var(--color-sonar-coral);
+  --ship-glow: rgb(255 79 94 / 0.55);
+}
+
+/* A survivor shown where it hid, once the game is over. */
+.ship-sprite[data-tone="revealed"] {
+  --ship-rim: var(--color-sonar-amber);
+  --ship-glow: rgb(255 201 74 / 0.4);
+  opacity: 0.75;
+}
+
+.ship-sprite[data-tone="lifted"] .ship-sprite-hull,
+.ship-sprite[data-tone="revealed"] .ship-sprite-hull {
+  stroke-dasharray: 5 4;
+}
+
+/* Small boards: a tighter glow so neighbours don't smear together. */
+.ship-sprite-compact {
+  filter: drop-shadow(0 0 2px var(--ship-glow));
+}

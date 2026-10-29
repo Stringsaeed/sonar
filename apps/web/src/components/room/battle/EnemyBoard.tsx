@@ -12,6 +12,7 @@ import { motion, useAnimate, useReducedMotion } from "motion/react";
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Explosion, Ping } from "./effects";
+import { ShipSprite } from "../ShipSprite";
 import { cellArea, cellLabel, COLUMNS, isSunk, ROWS, shipArea, shotAt, type Turn } from "./model";
 import { SinkStamp } from "./SinkStamp";
 import type { Arrival } from "./useArrivals";
@@ -142,24 +143,28 @@ export function EnemyBoard({
               isSunk(ship, outgoing) ? (
                 <motion.span
                   key={ship.kind}
-                  className="battle-sunk-ship relative z-[2] m-[3px] rounded-full"
+                  className="relative z-[2] p-[2px] sm:p-[3px]"
                   style={shipArea(ship)}
                   initial={{ opacity: 0, scale: 1.4 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ type: "spring", stiffness: 260, damping: 18 }}
                   aria-hidden="true"
-                />
+                >
+                  <ShipSprite kind={ship.kind} orientation={ship.orientation} tone="sunk" />
+                </motion.span>
               ) : (
                 // Only reachable once the game is over: a survivor revealed where it hid.
                 <motion.span
                   key={ship.kind}
-                  className="relative z-[2] m-[3px] rounded-full border-2 border-dashed border-sonar-amber/80 bg-sonar-amber/10 shadow-[0_0_14px_rgb(255_201_74/0.35)]"
+                  className="relative z-[2] p-[2px] sm:p-[3px]"
                   style={shipArea(ship)}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6 }}
                   aria-hidden="true"
-                />
+                >
+                  <ShipSprite kind={ship.kind} orientation={ship.orientation} tone="revealed" />
+                </motion.span>
               ),
             )}
 
