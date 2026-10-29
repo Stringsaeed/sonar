@@ -10,7 +10,7 @@ import { OpponentStatus } from "./OpponentStatus";
 import { DeploymentStatus } from "./placement/DeploymentStatus";
 import { placementOf, shipName } from "./placement/fleet";
 import { PlacementBoard } from "./placement/PlacementBoard";
-import { ShipCapsule } from "./placement/ShipCapsule";
+import { ShipSprite } from "./ShipSprite";
 import { ShipTray } from "./placement/ShipTray";
 import { usePlacementEditor, type PlacementEditor } from "./placement/usePlacementEditor";
 import { useShipDrag, type DragState } from "./placement/useShipDrag";
@@ -52,7 +52,7 @@ function DragGhost({ drag, editor }: { drag: DragState; editor: PlacementEditor 
         transform: `translate(${drag.x - (horizontal ? grip : size / 2)}px, ${drag.y - (horizontal ? size / 2 : grip)}px)`,
       }}
     >
-      <ShipCapsule length={length} orientation={editor.orientation} tone="hover" />
+      <ShipSprite kind={drag.held.kind} orientation={editor.orientation} tone="hover" />
     </div>
   );
 }
